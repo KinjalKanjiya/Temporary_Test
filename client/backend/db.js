@@ -1,28 +1,45 @@
 const mongoose = require('mongoose');
-const mongoURI = 'mongodb+srv://GoFood:GoFood_1234@cluster0.kojmg9f.mongodb.net/?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://GoFood:Kinjal12345@cluster0.kojmg9f.mongodb.net/?retryWrites=true&w=majority';
 
+// const mongoDB = async () => {
+//     await mongoose.connect(mongoURI,{ useNewUrlParser: true },async (err,result)=>{
+//         if(err) console.log("...",err)
+//         else{
+//             console.log("Connected");
+//             const fetched_data = await mongoose.connection.db.collection("Food");
+//             fetched_data.find({}).toArray(async function(err,data){
+//                 const FoodCategory = await mongoose.connection.db.collection("FoodCategory");
+//                 FoodCategory.find({}).toArray(function(err,catData){
+//                     if(err) console.log(err);
+//                     else{
+//                         global.Food = data;
+//                         global.FoodCategory = catData;
+//                     }
+//                 })
+//             })
+//     }
+//     })
+    
+   
+//    }
+  
 const mongoDB = async () => {
     try {
-        await mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB");
-        const db = mongoose.connection.db; // Get the database instance
+        await mongoose.connect(mongoURI, { useNewUrlParser: true });
+        console.log("Connected");
 
-        // Use the db.collection method to access the collection
-        const foodCollection = db.collection("Food");
-        const foodData = await foodCollection.find({}).toArray();
-  
+        const fetched_data = await mongoose.connection.db.collection("Food");
+        const data = await fetched_data.find({}).toArray();
 
-        if (foodData && foodData.length > 0) {
-            console.log("Fetched data:", foodData);
-        } else {
-            console.log("No data found in the 'Food' collection.");
-        }
+        const FoodCategory = await mongoose.connection.db.collection("FoodCategory");
+        const catData = await FoodCategory.find({}).toArray();
+
+        global.Food = data;
+        global.FoodCategory = catData;
     } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
+        console.error("Error connecting to the database:", error);
     }
-   
-   }
-  
+};
 
 
 module.exports = mongoDB;

@@ -3,9 +3,7 @@ const router = express.Router()
 
 router.post('/foodData', async (req, res) => {
     try {
-        // console.log( JSON.stringify(global.foodData))
-        // const userId = req.user.id;
-        // await database.listCollections({name:"food_items"}).find({});
+       
         res.send([global.Food, global.FoodCategory])
     } catch (error) {
         console.error(error.message)
